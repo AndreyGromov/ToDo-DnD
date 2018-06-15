@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9f9f9;
+    width: 600px;
+    margin: 0 auto;
+}
+.main {
+    background: #e7e8eb;
+    border-radius: 2px;
+    box-shadow: 0.5px 0.8px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 200px;
+    text-align: center;
+    
+    .input-create-todo {
+        width: 100%;
+        border: 1px solid #d2d2d2;
+        border-radius: 2px;
+        padding: 6px 4px;
+    }
+
+    .container-tasks-active {
+        margin-top: 24px;
+    }
+
+    .container-tasks {
+        text-align: left;
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .task-todo {
+            position: relative;
+            background-color: #fff;
+            border: 1px solid #fff;
+            border-radius: 2px;
+            margin: 6px 0;
+            padding: 5px 4px;
+            cursor: default;
+
+            .task-checkbox{
+                cursor: pointer;
+            }
+
+            .task-value {
+                width: 91%;
+                background: none;
+                border: none;
+                display: inline-block;
+                vertical-align: text-bottom;
+                padding-left: 8px;
+            }
+
+            .complete-task {
+                text-decoration: line-through;
+            }
+
+            .edit-todo {
+                background: 0;
+                border: 0;
+                position: absolute;
+                right: 4px;
+                top: 4px;
+                cursor: pointer;
+
+                i {
+                    font-size: 18px;
+                    color: #808080bd;
+                }
+
+                .button-remove-task {
+                    color: rgba(177, 55, 55, 0.933);
+                }
+            }
+        }
+
+        .task-edit-active {
+            background-color: #f7f5f5;
+            border: 1px solid #c7afaf;
+        }
+    }
+}
