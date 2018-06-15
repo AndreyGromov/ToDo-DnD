@@ -92,10 +92,10 @@ export class TaskItem extends Component {
     getButtonEdit = () => {
         const button = this.state.disabled ?
             <button className="edit-todo" onClick={this.handleEditItem}>
-                <i class="material-icons">create</i>
+                <i className="material-icons">create</i>
             </button> :
             <button className="edit-todo" onClick={this.handleSaveChanges}>
-                <i class="material-icons">done</i>
+                <i className="material-icons">done</i>
             </button>;
 
         return button;
@@ -128,7 +128,7 @@ export class TaskItem extends Component {
                 {completed ? null : this.getButtonEdit()}
                 {completed &&
                     <button className="edit-todo" onClick={this.handleRemoveItem}>
-                        <i class="material-icons button-remove-task">clear</i>
+                        <i className="material-icons button-remove-task">clear</i>
                     </button> 
                 }
             </div>

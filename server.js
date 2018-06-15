@@ -21,12 +21,14 @@ io.on('connection', (socket) => {
      * Отправка списка задач.
      */
     socket.on('getTodoList', () => {
-        const data = isDataFile() ?
-            fs.readFileSync('./data/todoList.json', 'utf8') :
-            createDataFile() && fs.readFileSync('./data/todoList.json', 'utf8');
-        const todoList = (data && JSON.parse(data)) || [];
-
-        socket.emit('getTodoList', todoList);
+        fs.exists('./data/todoList.json', (isDataFile) => {
+            const data = isDataFile ?
+                fs.readFileSync('./data/todoList.json', 'utf8') :
+                createDataFile() && fs.readFileSync('./data/todoList.json', 'utf8');
+            const todoList = (data && JSON.parse(data)) || [];
+    
+            socket.emit('getTodoList', todoList);
+        });
     });
 
     /**
@@ -81,16 +83,17 @@ io.on('connection', (socket) => {
     })
 });
 
-function isDataFile () {
-    fs.exists('./data/todoList.json', (exists) => {
-        return exists;
-    });
-}
-
 function createDataFile () {
-    fs.writeFile('./data/todoList.json', '[]', (err) => {
-        if (err) throw err;
-    })
+    if (!fs.existsSync('./data')) {
+        fs.mkdirSync('./data')
+        fs.writeFile('./data/todoList.json', '[]', (err) => {
+            if (err) throw err;
+        })
+    } else {
+        fs.writeFile('./data/todoList.json', '[]', (err) => {
+            if (err) throw err;
+        })
+    }
 }
 
 server.listen(port, () => {console.log(`Listening on port ${port}`)});

@@ -52,7 +52,7 @@ export class InputCreateItemTodoTask extends Component {
                 onInput={this.handleInput}
                 onKeyUp={this.handleEnter}
                 placeholder="Введите задачу..."
-                autofocus="true"
+                autoFocus="true"
             />
         )
     }
