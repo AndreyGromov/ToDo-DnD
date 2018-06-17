@@ -1,17 +1,20 @@
 import {isEqual} from 'lodash';
 import React, {Component} from 'react';
+import {ChangeTaskButton} from './ChangeTaskButton';
+import {stateChangeTaskButton} from '../../Consts';
 
 /**
  * Пункт списка задач.
  */
-export class TaskItem extends Component {
+export default class TaskItem extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            disabled: true,
             value: null,
-            completed: null
+            disabled: true,
+            completed: null,
+            stateButton: stateChangeTaskButton.EDIT
         }
 
         this.ItemRefs = React.createRef();
@@ -29,7 +32,10 @@ export class TaskItem extends Component {
      */
     handleEditItem = () => {
         this.setState(prevState => {
-                return {disabled: !prevState.disabled}
+                return {
+                    disabled: !prevState.disabled,
+                    stateButton: stateChangeTaskButton.SAVE_CHANGES
+                }
             },
             () => {
                 this.InputValueRefs.current.focus();
@@ -44,9 +50,14 @@ export class TaskItem extends Component {
         const {task} = this.props;
         const {checked} = e.target;
         const newTask = {...task, completed: checked};
+        const stateButton = checked ?
+            stateChangeTaskButton.REMOVE : stateChangeTaskButton.EDIT
 
         this.setState(
-            {completed: checked},
+            {
+                completed: checked,
+                stateButton: stateButton
+            },
             () => {
                 this.props.changeTask(newTask);
             }
@@ -71,7 +82,10 @@ export class TaskItem extends Component {
         const newTask = {...task, value};
 
         this.setState(
-            {disabled: true},
+            {
+                disabled: true,
+                stateButton: stateChangeTaskButton.EDIT
+            },
             () => {
                 if (!isEqual(value, task.value)) {
                     changeTask(newTask);
@@ -86,24 +100,9 @@ export class TaskItem extends Component {
         removeTask(task);
     }
 
-    /**
-     * Получение кнопки редактировать/сохранить.
-     */
-    getButtonEdit = () => {
-        const button = this.state.disabled ?
-            <button className="edit-todo" onClick={this.handleEditItem}>
-                <i className="material-icons">create</i>
-            </button> :
-            <button className="edit-todo" onClick={this.handleSaveChanges}>
-                <i className="material-icons">done</i>
-            </button>;
-
-        return button;
-    }
-
     render () {
         const {task: {id}} = this.props;
-        const { disabled, value, completed} = this.state;
+        const {disabled, value, completed, stateButton} = this.state;
         const classNameEdit = !disabled ? 'task-edit-active' : '';
 
         return (
@@ -125,12 +124,12 @@ export class TaskItem extends Component {
                     ref={this.InputValueRefs}
                 />
 
-                {completed ? null : this.getButtonEdit()}
-                {completed &&
-                    <button className="edit-todo" onClick={this.handleRemoveItem}>
-                        <i className="material-icons button-remove-task">clear</i>
-                    </button> 
-                }
+                <ChangeTaskButton 
+                    stateButton={stateButton}
+                    handleEditItem={this.handleEditItem}
+                    handleSaveChanges={this.handleSaveChanges}
+                    handleRemoveItem={this.handleRemoveItem}
+                />
             </div>
         )
     }
