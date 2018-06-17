@@ -10,7 +10,7 @@ export class InputCreateItemTodoTask extends Component {
      * Обработчик отбравки значения на клавишу Enter.
      */
     handleEnter = (e) => {
-        event.preventDefault()
+        e.preventDefault()
 
         const {value} = this.state;
 
