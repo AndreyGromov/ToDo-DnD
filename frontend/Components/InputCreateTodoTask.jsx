@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+
 import {createIdForTodoTask} from '../Utils'
 
 export class InputCreateItemTodoTask extends Component {

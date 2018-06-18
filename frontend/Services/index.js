@@ -1,4 +1,5 @@
 import socketIoClient from 'socket.io-client'
+
 import {port} from '../Consts'
 
 export class DispatchServices {
@@ -43,6 +44,7 @@ export class DispatchServices {
     return (dispatch) => {
       this.socket.emit('saveTaskValueChange', task)
       this.socket.on('saveTaskValueChange', (list) => {
+        console.log('change')
         dispatch({
           type: typeAction,
           payload: list

@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+
 import {TodoActions} from './Actions';
 import {DispatchServices} from './Services';
+
 import {InputCreateItemTodoTask} from './Components/InputCreateTodoTask';
 import {TasksContainer} from './Components/TasksContainer';
 
 class App extends Component {
-  componentWillMount () {
+  componentDidMount () {
     this.props.todoActions.getTodoList()
   }
 

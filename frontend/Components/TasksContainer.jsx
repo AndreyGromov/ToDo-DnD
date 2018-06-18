@@ -1,6 +1,7 @@
 import {cloneDeep} from 'lodash'
 import React, {Component} from 'react'
 import {Container, Draggable} from 'react-smooth-dnd'
+
 import TaskItem from './TaskItem'
 
 export class TasksContainer extends Component {

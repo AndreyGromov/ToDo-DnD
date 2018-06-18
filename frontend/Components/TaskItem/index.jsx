@@ -1,5 +1,6 @@
 import {isEqual} from 'lodash'
 import React, {Component} from 'react'
+
 import {ChangeTaskButton} from './ChangeTaskButton'
 import {stateChangeTaskButton} from '../../Consts'
 

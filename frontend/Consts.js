@@ -1,3 +1,4 @@
+/* Порт подключения socket.io */
 export const port = 6060
 
 /**

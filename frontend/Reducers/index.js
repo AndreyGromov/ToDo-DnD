@@ -1,5 +1,6 @@
 import {cloneDeep} from 'lodash'
 import {handleActions} from 'redux-actions'
+
 import {ActionTypesForToDo} from '../Actions/ActionTypes'
 
 function getDefaultState () {
@@ -12,10 +13,10 @@ function getDefaultState () {
 
 const ReducerToDo = handleActions({
 
-  [ActionTypesForToDo.GET_TODO_LIST]: (state, action) => {
+  [ActionTypesForToDo.GET_THE_CURRENT_TODO_LIST]: (state, action) => {
     const newState = cloneDeep(state)
 
-    newState.todoList = action.payload
+    newState.todoList = [...action.payload]
 
     return newState
   }

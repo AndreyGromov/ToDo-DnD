@@ -9,7 +9,7 @@ export class TodoActions {
    * Получение списка задач с бека.
    */
   getTodoList = () => {
-    return this.service.getTodoList(ActionTypesForToDo.GET_TODO_LIST)
+    return this.service.getTodoList(ActionTypesForToDo.GET_THE_CURRENT_TODO_LIST)
   }
 
   /**
@@ -17,7 +17,7 @@ export class TodoActions {
    */
   createTaskInTodo = (task) => {
     return this.service.createTaskInTodo(
-      ActionTypesForToDo.GET_TODO_LIST,
+      ActionTypesForToDo.GET_THE_CURRENT_TODO_LIST,
       task
     )
   }
@@ -27,7 +27,7 @@ export class TodoActions {
    */
   saveTaskValueChange = (task) => {
     return this.service.saveTaskValueChange(
-      ActionTypesForToDo.GET_TODO_LIST,
+      ActionTypesForToDo.GET_THE_CURRENT_TODO_LIST,
       task
     )
   }
@@ -37,7 +37,7 @@ export class TodoActions {
    */
   removeTaskFromTodo = (task) => {
     return this.service.removeTaskFromTodo(
-      ActionTypesForToDo.GET_TODO_LIST,
+      ActionTypesForToDo.GET_THE_CURRENT_TODO_LIST,
       task
     )
   }
@@ -47,7 +47,7 @@ export class TodoActions {
    */
   saveSortTodoList = (todoList) => {
     return this.service.saveSortTodoList(
-      ActionTypesForToDo.GET_TODO_LIST,
+      ActionTypesForToDo.GET_THE_CURRENT_TODO_LIST,
       todoList
     )
   }
