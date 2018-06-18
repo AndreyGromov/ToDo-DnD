@@ -1,10 +1,11 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
-const _ = require('lodash')
 const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+
+const todoServices = require('./services')
 
 const port = 6060
 const rootPath = path.join(__dirname, '../dist')
@@ -21,64 +22,48 @@ io.on('connection', (socket) => {
   console.log(`${name} connected`)
 
   /**
-   * Отправка списка задач.
+   * Отправка списка задач запрашивающему пользователю.
    */
   socket.on('getTodoList', () => {
-    fs.exists('./backend/data/todoList.json', (isDataFile) => {
-      const data = isDataFile ?
-        fs.readFileSync('./backend/data/todoList.json', 'utf8') :
-        createDataFile() && fs.readFileSync('./backend/data/todoList.json', 'utf8')
-      const todoList = (data && JSON.parse(data)) || []
+    fs.pathExists(__dirname + '/data/todoList.json', (err, exists) => {
+      const todoList = todoServices.getTodoList(exists);
 
       socket.emit('getTodoList', todoList)
     })
   })
 
   /**
-   * Создание новой задачи.
+   * Добавление новой задачи и возврат всем пользователям обновленного списка задач.
    */
   socket.on('createTaskInTodo', (task) => {
-    const data = fs.readFileSync('./backend/data/todoList.json', 'utf8')
-    const todoList = (data && JSON.parse(data)) || []
-    const newTodoList = [task, ...todoList]
-    
-    fs.writeFileSync('./backend/data/todoList.json', JSON.stringify(newTodoList))
-    io.emit('createTaskInTodo', newTodoList)
+    const todoList = todoServices.createTaskInTodo(task);
+
+    io.emit('createTaskInTodo', todoList)
   })
 
   /**
-   * Сохранение измененной задачи.
+   * Сохранение измененной задачи и возврат всем пользователям обновленного списка задач.
    */
   socket.on('saveTaskValueChange', (task) => {
-    const data = fs.readFileSync('./backend/data/todoList.json', 'utf8')
-    const todoList = (data && JSON.parse(data)) || []
-    const indexTask = _.findIndex(todoList, (item) => item.id === task.id)
+    const todoList = todoServices.saveTaskValueChange(task);
 
-    todoList[indexTask] = task
-
-    fs.writeFileSync('./backend/data/todoList.json', JSON.stringify(todoList))
     io.emit('saveTaskValueChange', todoList)
   })
 
   /**
-   * Удаление задачи из ToDo листа.
+   * Удаление задачи из ToDo листа и возврат всем пользователям обновленного списка задач.
    */
   socket.on('removeTaskFromTodo', (task) => {
-    const data = fs.readFileSync('./backend/data/todoList.json', 'utf8')
-    const todoList = (data && JSON.parse(data)) || []
-    const indexTask = _.findIndex(todoList, (item) => item.id === task.id)
+    const todoList = todoServices.removeTaskFromTodo(task);
 
-    todoList.splice(indexTask, 1)
-
-    fs.writeFileSync('./backend/data/todoList.json', JSON.stringify(todoList))
     io.emit('removeTaskFromTodo', todoList)
   })
 
   /**
-   * Сохранение по новому отсортированного ToDo листа.
+   * Сохранение отсортированного ToDo листа и возврат его всем пользователям кроме отправителя.
    */
   socket.on('saveSortTodoList', (todoList) => {
-    fs.writeFileSync('./backend/data/todoList.json', JSON.stringify(todoList))
+    todoServices.saveSortTodoList(todoList)
     socket.broadcast.emit('saveSortTodoList', todoList)
   })
 
@@ -86,18 +71,5 @@ io.on('connection', (socket) => {
     console.log(`${name} disconnected`)
   })
 })
-
-function createDataFile () {
-  if (!fs.existsSync('./backend/data')) {
-    fs.mkdirSync('./backend/data')
-    fs.writeFile('./backend/data/todoList.json', '[]', (err) => {
-      if (err) throw err
-    })
-  } else {
-    fs.writeFile('./backend/data/todoList.json', '[]', (err) => {
-      if (err) throw err
-    })
-  }
-}
 
 server.listen(port, () => {console.log(`Listening on port ${port}`)})
