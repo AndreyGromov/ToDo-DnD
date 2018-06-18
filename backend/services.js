@@ -13,6 +13,10 @@ module.exports = todoServices = {
       if (!exists) {
         fs.createFileSync(dataPath)
         fs.outputFileSync(dataPath, '[]')
+
+        const todoList = fs.readJsonSync(dataPath)
+
+        return todoList;
       } else {
         const todoList = fs.readJsonSync(dataPath)
 
