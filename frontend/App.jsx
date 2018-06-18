@@ -3,12 +3,19 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {TodoActions} from './Actions';
-import {DispatchServices} from './Services';
+import {DispatchServices} from './Services/DispatchServices';
+import {ServiceProvider} from './Services/ServiceProvider';
 
 import {InputCreateItemTodoTask} from './Components/InputCreateTodoTask';
 import {TasksContainer} from './Components/TasksContainer';
 
 class App extends Component {
+  constructor (props) {
+    super(props)
+
+    this.serviceProvider = new ServiceProvider()
+  }
+
   componentDidMount () {
     this.props.todoActions.getTodoList()
   }
@@ -17,28 +24,28 @@ class App extends Component {
    * Вызов экшена создания новой задачи.
    */
   createTask = (task) => {
-    this.props.todoActions.createTaskInTodo(task)
+    this.serviceProvider.createTaskInTodo(task)
   }
 
   /**
    * Вызов экшена изменения задачи.
    */
   changeTask = (task) => {
-    this.props.todoActions.saveTaskValueChange(task)
+    this.serviceProvider.saveTaskValueChange(task)
   }
 
   /**
    * Вызов экшена сохранения сортировки ToDo листа.
    */
   saveSortTodoList = (todoList) => {
-    this.props.todoActions.saveSortTodoList(todoList)
+    this.serviceProvider.saveSortTodoList(todoList)
   }
 
   /**
    * Вызов экшена удаления задачи.
    */
   removeTask = (task) => {
-    this.props.todoActions.removeTaskFromTodo(task)
+    this.serviceProvider.removeTaskFromTodo(task)
   }
 
   render () {

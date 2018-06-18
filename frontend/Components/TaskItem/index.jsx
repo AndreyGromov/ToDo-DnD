@@ -24,8 +24,13 @@ export default class TaskItem extends Component {
 
   componentDidMount () {
     const {completed, value} = this.props.task
+    const newState = {
+      value,
+      completed,
+      stateButton: completed ? stateChangeTaskButton.REMOVE : stateChangeTaskButton.EDIT
+    }
 
-    this.setState({value, completed})
+    this.setState(newState)
   }
 
   /**
@@ -111,6 +116,7 @@ export default class TaskItem extends Component {
           type='checkbox'
           name={id}
           checked={completed}
+          disabled={!disabled}
           className='task-checkbox'
           onChange={this.handleChangeCheckbox}
         />

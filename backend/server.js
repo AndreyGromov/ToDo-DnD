@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
   socket.on('createTaskInTodo', (task) => {
     const todoList = todoServices.createTaskInTodo(task);
 
-    io.emit('createTaskInTodo', todoList)
+    io.emit('getTodoList', todoList)
   })
 
   /**
@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
   socket.on('saveTaskValueChange', (task) => {
     const todoList = todoServices.saveTaskValueChange(task);
 
-    io.emit('saveTaskValueChange', todoList)
+    io.emit('getTodoList', todoList)
   })
 
   /**
@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
   socket.on('removeTaskFromTodo', (task) => {
     const todoList = todoServices.removeTaskFromTodo(task);
 
-    io.emit('removeTaskFromTodo', todoList)
+    io.emit('getTodoList', todoList)
   })
 
   /**
@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
    */
   socket.on('saveSortTodoList', (todoList) => {
     todoServices.saveSortTodoList(todoList)
-    socket.broadcast.emit('saveSortTodoList', todoList)
+    socket.broadcast.emit('getTodoList', todoList)
   })
 
   socket.on('disconnect', () => {
