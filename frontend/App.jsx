@@ -21,28 +21,28 @@ class App extends Component {
   }
 
   /**
-   * Вызов экшена создания новой задачи.
+   * Вызов сервиса создания новой задачи.
    */
   createTask = (task) => {
     this.serviceProvider.createTaskInTodo(task)
   }
 
   /**
-   * Вызов экшена изменения задачи.
+   * Вызов сервиса изменения задачи.
    */
   changeTask = (task) => {
     this.serviceProvider.saveTaskValueChange(task)
   }
 
   /**
-   * Вызов экшена сохранения сортировки ToDo листа.
+   * Вызов сервиса сохранения сортировки ToDo листа.
    */
   saveSortTodoList = (todoList) => {
     this.serviceProvider.saveSortTodoList(todoList)
   }
 
   /**
-   * Вызов экшена удаления задачи.
+   * Вызов сервиса удаления задачи.
    */
   removeTask = (task) => {
     this.serviceProvider.removeTaskFromTodo(task)
