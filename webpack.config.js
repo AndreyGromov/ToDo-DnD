@@ -8,14 +8,14 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: { main: './src/index.js' },
+    entry: { main: './frontend/index.js' },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[chunkhash].js'
     },
 
     resolve: {
-        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+        modules: [path.resolve(__dirname, 'frontend'), 'node_modules'],
         extensions: ['.js', '.jsx', '.css', '.scss']
     },
 
@@ -59,7 +59,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: false,
             hash: true,
-            template: './src/index.html',
+            template: './frontend/index.html',
             filename: 'index.html'
         }),
         new MiniCssExtractPlugin({
