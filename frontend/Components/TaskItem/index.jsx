@@ -33,6 +33,23 @@ export default class TaskItem extends Component {
     this.setState(newState)
   }
 
+  componentDidUpdate (prevProps) {
+    const {task, task: {completed, value}} = this.props
+    const newState = {
+      value,
+      completed,
+      stateButton: completed ? stateChangeTaskButton.REMOVE : stateChangeTaskButton.EDIT
+    }
+
+    if(!isEqual(prevProps.task, task)) {
+      this.setState(newState)
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props)
+  }
+
   /**
    * Обработчик изменения отображения кнопки "редактировать".
    */
