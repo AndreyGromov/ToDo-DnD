@@ -74,7 +74,7 @@ export class DispatchServices {
             this.socket.emit('saveSortTodoList', todoList);
             dispatch({
                 type: typeAction,
-                payload: list
+                payload: todoList
             });
         })
     }
